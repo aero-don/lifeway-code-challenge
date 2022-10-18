@@ -3,6 +3,7 @@ package com.lifeway.wordcount.dto.command;
 import io.micronaut.core.annotation.Introspected;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -12,6 +13,6 @@ import javax.validation.constraints.NotNull;
  * @param message The message whose words are to be counted.
  */
 @Introspected
-public record WordCountCommand(@NotNull @NotBlank String id,
-                               @NotNull String message) {
+public record WordCountCommand(@NotNull @NotEmpty @NotBlank String id,
+                               @NotNull @NotEmpty String message) {
 }

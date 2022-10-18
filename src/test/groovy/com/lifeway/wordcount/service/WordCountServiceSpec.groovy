@@ -1,29 +1,26 @@
-package com.lifeway.wordcount
+package com.lifeway.wordcount.service
 
-import com.lifeway.wordcount.client.WordCountClient
 import com.lifeway.wordcount.dto.command.WordCountCommand
 import com.lifeway.wordcount.dto.response.WordCountResponse
-import io.micronaut.http.HttpStatus
-import io.micronaut.http.client.exceptions.HttpClientResponseException
-import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import spock.lang.Specification
 import jakarta.inject.Inject
+import spock.lang.Specification
+import spock.lang.Unroll
 
-@MicronautTest
-class WordCountSpec extends Specification {
+import javax.validation.ConstraintViolationException
+
+@MicronautTest(startApplication = false)
+class WordCountServiceSpec extends Specification {
 
     @Inject
-    EmbeddedApplication<?> application
+    WordCountService wordCountService
 
-    @Inject
-    WordCountClient wordCountClient
+    static long wordCountTotal = 0L
 
-    static long wordCountTotal = 0
-
+    @Unroll
     void 'test valid ids and messages'() {
         when:
-        WordCountResponse wordCountResponse = wordCountClient.countWords(new WordCountCommand(id, message))
+        WordCountResponse wordCountResponse = wordCountService.countWords(new WordCountCommand(id, message))
         wordCountTotal += wordCount
 
         then:
@@ -43,13 +40,12 @@ class WordCountSpec extends Specification {
         '234'            || 'another duplicate id'     || 0 // duplicate id, so not counting words in message
     }
 
-    void 'test invalid ids and messages'() {
+    void 'test that invalid ids and messages result in a ConstraintViolationException'() {
         when:
-        wordCountClient.countWords(new WordCountCommand(id, message))
+        wordCountService.countWords(new WordCountCommand(id, message))
 
         then:
-        HttpClientResponseException exception = thrown(HttpClientResponseException)
-        exception.status == HttpStatus.BAD_REQUEST
+        thrown(ConstraintViolationException)
 
         where:
         id          || message
