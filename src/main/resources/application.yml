@@ -2,7 +2,7 @@ micronaut:
   application:
     name: lifeway-code-challenge
   server:
-    port: 8080
+    port: 8787
   router:
     static-resources:
       swagger:
