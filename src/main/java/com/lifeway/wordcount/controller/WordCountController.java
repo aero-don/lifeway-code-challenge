@@ -9,6 +9,7 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
@@ -41,7 +42,7 @@ public class WordCountController {
      */
     @Tag(name = "Count Words")
     @Post(consumes = "application/json", produces = "application/json")
-    public WordCountResponse countWords(@Valid @Body WordCountCommand wordCountCommand) {
-        return wordCountService.countWords(wordCountCommand);
+    public Mono<WordCountResponse> countWords(@Valid @Body WordCountCommand wordCountCommand) {
+        return Mono.justOrEmpty(wordCountService.countWords(wordCountCommand));
     }
 }

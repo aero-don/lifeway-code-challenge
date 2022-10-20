@@ -6,6 +6,7 @@ import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.client.annotation.Client;
+import reactor.core.publisher.Mono;
 
 /**
  * REST client for the word count REST web service.
@@ -21,5 +22,5 @@ public interface WordCountClient {
      * @return The response to the count words request.
      */
     @Post()
-    WordCountResponse countWords(@Nullable @Body WordCountCommand wordCountCommand);
+    Mono<WordCountResponse> countWords(@Nullable @Body WordCountCommand wordCountCommand);
 }
