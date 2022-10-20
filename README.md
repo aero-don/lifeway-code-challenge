@@ -1,5 +1,8 @@
 # Lifeway Code Challenge - Word Count Application
 
+## Build and Run Requirements
+Java 17 or higher is required because the application uses the Java "record" type.
+
 ## Repository
 
 ### Branches
@@ -7,9 +10,6 @@
 #### Master Branch
 
 #### Event Driven Branch
-
-## Build and Run Requirements
-Java 17 or higher is required because the application uses the Java "record" type.
 
 ## Assumptions
 1. The REST endpoint is not required to be secured.
@@ -49,14 +49,20 @@ The application is configured to serve up the REST endpoint on port 8787.
 * Linux/Mac: `./gradlew run`
 * Windows: `gradlew.bat run`
 
-The application includes OpenAPI support and the Swagger UI can be accessed with the following URL: [http://localhost:8787/swagger-ui/](http://localhost:8787/swagger-ui/)
+The application REST endpoint accepts an HTTP POST request at the following URL: [http://localhost:8787/words/](http://localhost:8787/words/)
+
+The application includes OpenAPI support and the Swagger UI can be accessed at following URL: [http://localhost:8787/swagger-ui/](http://localhost:8787/swagger-ui/)
 
 ### Test
 
-May need to execute [clean](#clean) to re-run tests.
+For tests, the application is configured to serve up the REST endpoint on port 8887.
 
 * Linux/Mac: `./gradlew test`
 * Windows: `gradlew.bat test`
+
+Execute [clean](#clean) to re-run tests.
+ 
+See [build](#build) for location of test results.
 
 ### Documentation
 
