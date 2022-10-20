@@ -21,6 +21,9 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.swagger.core.v3:swagger-annotations")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+
+    testImplementation(implementation("io.micronaut.reactor:micronaut-reactor-http-client"))
 
     runtimeOnly("ch.qos.logback:logback-classic")
 }
