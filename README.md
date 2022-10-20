@@ -4,12 +4,20 @@
 Java 17 or higher is required because the application uses the Java "record" type.
 
 ## Repository
+Clone repository: `git clone https://github.com/aero-don/lifeway-code-challenge.git`
 
-### Branches
+## Branches
+There are two branches in the repository to demonstrate two different implementations.
 
-#### Master Branch
+### Master Branch
+The master branch contains a state-based implementation using a layered design approach.
 
-#### Event Driven Branch
+Checkout master branch: `git checkout master`
+
+### Event Driven Branch
+The event driven branch contains an event driven implementation using a layered design approach.  This branch also demonstrates the use of a reactive HTTP endpoint, allowing the client to decide if the HTTP response should be delivered synchronously or asynchronously.
+
+Checkout event driven branch `git checkout event-driven`
 
 ## Assumptions
 1. The REST endpoint is not required to be secured.
