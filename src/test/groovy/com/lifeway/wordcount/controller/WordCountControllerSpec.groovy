@@ -1,6 +1,7 @@
 package com.lifeway.wordcount.controller
 
 import com.lifeway.wordcount.client.WordCountClient
+import com.lifeway.wordcount.constants.TestConstants
 import com.lifeway.wordcount.dto.command.WordCountCommand
 import com.lifeway.wordcount.dto.response.WordCountResponse
 import com.lifeway.wordcount.service.WordCountService
@@ -30,6 +31,7 @@ class WordCountControllerSpec extends Specification {
     void 'test valid ids and messages'() {
         when:
         WordCountResponse wordCountResponse = wordCountClient.countWords(new WordCountCommand(id, message))
+                .block(TestConstants.HTTP_RESPONSE_DURATION)
         wordCountTotal += wordCount
 
         then:
@@ -52,7 +54,7 @@ class WordCountControllerSpec extends Specification {
 
     void 'test that null word count command results is an HTTP bad request'() {
         when:
-        wordCountClient.countWords(null)
+        wordCountClient.countWords(null).block(TestConstants.HTTP_RESPONSE_DURATION)
 
         then:
         HttpClientResponseException exception = thrown(HttpClientResponseException)
@@ -61,7 +63,7 @@ class WordCountControllerSpec extends Specification {
 
     void 'test that invalid ids and messages result is an HTTP bad request'() {
         when:
-        wordCountClient.countWords(new WordCountCommand(id, message))
+        wordCountClient.countWords(new WordCountCommand(id, message)).block(TestConstants.HTTP_RESPONSE_DURATION)
 
         then:
         HttpClientResponseException exception = thrown(HttpClientResponseException)

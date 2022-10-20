@@ -8,9 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the word count service.
@@ -19,11 +18,11 @@ import java.util.concurrent.atomic.AtomicLong;
 public class WordCountServiceImpl implements WordCountService {
     private static final Logger LOG = LoggerFactory.getLogger(WordCountServiceImpl.class);
 
-    // Local cache for the ids that have been processed.
-    private final Map<String, Integer> idToMessageWordCountMap = new HashMap<>();
-
-    // Local cache for the word count total.
-    private final AtomicLong wordCountTotal = new AtomicLong(0L);
+    // Local cache for word count commands as a list events.
+    // Keeping all events and recalculating state based on those events allows
+    // the system to maintain all knowledge associated with all events even
+    // if the event is currently ignored by the word count algorithm.
+    private final List<WordCountCommand> wordCountEvents = new ArrayList<>();
 
     /**
      * Counts the number of words in the message property of the word count command.
@@ -38,27 +37,21 @@ public class WordCountServiceImpl implements WordCountService {
     @Override
     public WordCountResponse countWords(@Valid @NotNull WordCountCommand wordCountCommand) {
 
-        // Ensure thread safety of message id local cache.
-        synchronized (idToMessageWordCountMap) {
-
-            // Check to see if id has already been processed.
-            if (!idToMessageWordCountMap.containsKey(wordCountCommand.id())) {
-                int messageWordCount = wordCountCommand.message().split("\\s+").length;
-
-                // Add the id and the message word count to the local cache.
-                idToMessageWordCountMap.put(wordCountCommand.id(), messageWordCount);
-
-                // Update the running word count total in the local cache.
-                wordCountTotal.getAndAdd(messageWordCount);
-
-                LOG.debug("Processed word count request, id: \"{}\", message: \"{}\", messageWordCount: {}, wordCountTotal: {}",
-                        wordCountCommand.id(), wordCountCommand.message(), messageWordCount, wordCountTotal);
-            } else {
-                LOG.warn("Duplicate id: {}, ignoring message: \"{}\"", wordCountCommand.id(), wordCountCommand.message());
-            }
+        // Ensure thread safety of word count events local cache.
+        synchronized (wordCountEvents) {
+            wordCountEvents.add(wordCountCommand);
         }
 
-        return new WordCountResponse(wordCountTotal.get());
+        // Calculate the running total of the number of words in messages with unique ids.
+        WordCountResponse wordCountResponse = new WordCountResponse(wordCountEvents.stream()
+                .distinct()
+                .map(event -> event.message().split("\\s+").length)
+                .reduce(0, Integer::sum));
+
+        LOG.debug("Processed wordCountCommand: {} and responded with wordCountResponse: {}",
+                wordCountCommand, wordCountResponse);
+
+        return wordCountResponse;
     }
 
 }
