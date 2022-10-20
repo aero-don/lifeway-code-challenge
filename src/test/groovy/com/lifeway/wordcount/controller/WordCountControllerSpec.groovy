@@ -46,7 +46,16 @@ class WordCountControllerSpec extends Specification {
         'id with spaces' || 'the id can have spaces'   || 5
         'id-with-dashes' || 'the id can have dashes'   || 5
         '456'            || '1 message with 2 numbers' || 5 // numbers count as words
-        '234'            || 'another duplicate id'     || 0 // duplicate id, so not counting words in message
+        '123'            || 'another duplicate id'     || 0 // duplicate id, so not counting words in message
+    }
+
+    void 'test that null word count command results is an HTTP bad request'() {
+        when:
+        wordCountClient.countWords(null)
+
+        then:
+        HttpClientResponseException exception = thrown(HttpClientResponseException)
+        exception.status == HttpStatus.BAD_REQUEST
     }
 
     void 'test that invalid ids and messages result is an HTTP bad request'() {

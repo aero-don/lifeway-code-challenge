@@ -1,8 +1,8 @@
 package com.lifeway.wordcount.client;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.lifeway.wordcount.dto.command.WordCountCommand;
 import com.lifeway.wordcount.dto.response.WordCountResponse;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.client.annotation.Client;
@@ -21,5 +21,5 @@ public interface WordCountClient {
      * @return The response to the count words request.
      */
     @Post()
-    WordCountResponse countWords(@Body WordCountCommand wordCountCommand);
+    WordCountResponse countWords(@Nullable @Body WordCountCommand wordCountCommand);
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -35,7 +36,7 @@ public class WordCountServiceImpl implements WordCountService {
      * will be returned in the response.
      */
     @Override
-    public WordCountResponse countWords(@Valid WordCountCommand wordCountCommand) {
+    public WordCountResponse countWords(@Valid @NotNull WordCountCommand wordCountCommand) {
 
         // Ensure thread safety of message id local cache.
         synchronized (idToMessageWordCountMap) {

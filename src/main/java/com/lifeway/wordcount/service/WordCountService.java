@@ -4,6 +4,7 @@ import com.lifeway.wordcount.dto.command.WordCountCommand;
 import com.lifeway.wordcount.dto.response.WordCountResponse;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Interface for the word count service.
@@ -20,6 +21,6 @@ public interface WordCountService {
      * processed.  A message with a duplicate id will not be processed and the previous running word count total
      * will be returned in the response.
      */
-    WordCountResponse countWords(@Valid WordCountCommand wordCountCommand);
+    WordCountResponse countWords(@Valid @NotNull WordCountCommand wordCountCommand);
 
 }
