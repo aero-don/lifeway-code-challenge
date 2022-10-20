@@ -70,7 +70,7 @@ For tests, the application is configured to serve up the REST endpoint on port 8
 * Linux/Mac: `./gradlew test`
 * Windows: `gradlew.bat test`
 
-Execute [clean](#clean) before executing test to re-run tests when there are not code changes.
+Execute [clean](#clean) to re-run tests.
  
 See [build](#build) for location of test results.
 
