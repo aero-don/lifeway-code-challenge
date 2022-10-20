@@ -57,6 +57,8 @@ The application is configured to serve up the REST endpoint on port 8787.
 * Linux/Mac: `./gradlew run`
 * Windows: `gradlew.bat run`
 
+Exit application: `ctrl-c`
+
 The application REST endpoint accepts an HTTP POST request at the following URL: [http://localhost:8787/words/](http://localhost:8787/words/)
 
 The application includes OpenAPI support and the Swagger UI can be accessed at following URL: [http://localhost:8787/swagger-ui/](http://localhost:8787/swagger-ui/)
