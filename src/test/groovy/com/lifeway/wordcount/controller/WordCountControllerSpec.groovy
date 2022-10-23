@@ -38,17 +38,18 @@ class WordCountControllerSpec extends Specification {
         wordCountResponse.count() == wordCountTotal
 
         where:
-        id               || message                    || wordCount
-        '123'            || 'hello world'              || 2
-        '234'            || 'hello world again'        || 3
-        '234'            || 'hello world yet again'    || 0 // duplicate id, so not counting words in message
-        '345'            || '          '               || 0 // contains only blanks, so word count is zero
-        '345'            || 'duplicate id not counted' || 0 // duplicate id, so not counting words in message
-        'id'             || 'non-numeric id'           || 2
-        'id with spaces' || 'the id can have spaces'   || 5
-        'id-with-dashes' || 'the id can have dashes'   || 5
-        '456'            || '1 message with 2 numbers' || 5 // numbers count as words
-        '123'            || 'another duplicate id'     || 0 // duplicate id, so not counting words in message
+        id               || message                        || wordCount
+        '123'            || 'hello world'                  || 2
+        '234'            || 'hello world again'            || 3
+        '234'            || 'hello world yet again'        || 0 // duplicate id, so not counting words in message
+        '345'            || '          '                   || 0 // contains only blanks, so word count is zero
+        '345'            || 'duplicate id not counted'     || 0 // duplicate id, so not counting words in message
+        'id'             || 'non-numeric id'               || 2
+        'id with spaces' || 'the id can have spaces'       || 5
+        'id-with-dashes' || 'the id can have dashes'       || 5
+        '456'            || '1 message with 2 numbers'     || 5 // numbers count as words
+        '123'            || 'another duplicate id'         || 0 // duplicate id, so not counting words in message
+        '~!@#$%^&*()/\\' || '~!@#$%^&*()/\\ weird message' || 3
     }
 
     void 'test that null word count command results is an HTTP bad request'() {
